@@ -85,7 +85,7 @@ class App extends LitElement {
   render() {
     return html`
       <div class="interface">
-        <h2 class="interface-head">类型定义</h2>
+        <h2 class="interface-head">TypeScript类型定义</h2>
         <div class="interface-body">
           <button @click="${this.handleCodeCopy}" class="interface-copy">
             Copy

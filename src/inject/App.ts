@@ -68,9 +68,9 @@ class App extends LitElement {
   @state()
   code: string
 
-  async handleCodeCopy() {
+  async handleCodeCopy(code: string) {
     try {
-      await navigator.clipboard.writeText(this.code)
+      await navigator.clipboard.writeText(code)
       alert('已复制到剪切板！')
     } catch (error: any) {
       alert(`复制失败：${error.message as string}`)
@@ -87,11 +87,44 @@ class App extends LitElement {
       <div class="interface">
         <h2 class="interface-head">TypeScript类型定义</h2>
         <div class="interface-body">
-          <button @click="${this.handleCodeCopy}" class="interface-copy">
+          <button
+            @click="${() => {
+              this.handleCodeCopy(this.code[0])
+            }}"
+            class="interface-copy"
+          >
             Copy
           </button>
           <div class="interface-code">
-            <style-code code="${this.code}"></style-code>
+            <style-code code="${this.code[0]}"></style-code>
+          </div>
+        </div>
+        <h2 class="interface-head">ModelApi代码片段</h2>
+        <div class="interface-body">
+          <button
+            @click="${() => {
+              this.handleCodeCopy(this.code[1])
+            }}"
+            class="interface-copy"
+          >
+            Copy
+          </button>
+          <div class="interface-code">
+            <style-code code="${this.code[1]}"></style-code>
+          </div>
+        </div>
+        <h2 class="interface-head">Controller代码片段</h2>
+        <div class="interface-body">
+          <button
+            @click="${() => {
+              this.handleCodeCopy(this.code[2])
+            }}"
+            class="interface-copy"
+          >
+            Copy
+          </button>
+          <div class="interface-code">
+            <style-code code="${this.code[2]}"></style-code>
           </div>
         </div>
       </div>

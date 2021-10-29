@@ -58,12 +58,21 @@ const initControllerCode = (params: {
   method: string
   moduleName: string
   reqTypeName: string
+  title: string
 }) => {
-  const { method, moduleName, reqTypeName } = params
+  const { title, method, moduleName, reqTypeName } = params
   const upperCaseModuleName = firstUpperCase(moduleName)
   // 获取方法名称， 动词 + 模块名
   const functionName = methodMap[method].toLowerCase() + upperCaseModuleName
-  return `${functionName}(params: T${upperCaseModuleName}ApiModel.${reqTypeName}) {
+  return `
+/**
+ * @name ${title}
+ * @param {T${upperCaseModuleName}ApiModel.${reqTypeName}} params
+ * @memberof ${upperCaseModuleName}Controller
+ * @link ${window.location.href}
+ * @return {*}
+ */
+${functionName}(params: T${upperCaseModuleName}ApiModel.${reqTypeName}) {
   return this.apiModel.${functionName}(params);
 }
 `
@@ -118,9 +127,9 @@ const responseHandler = (render: Function) => {
       const controllerCode = initControllerCode({
         method: data.method,
         moduleName: data.function_name,
-        reqTypeName: reqRootName
+        reqTypeName: reqRootName,
+        title: data.title
       })
-      console.log(modelApiCode)
       // 渲染 app
       render(code.concat([modelApiCode, controllerCode]))
     } catch (error: any) {

@@ -71,7 +71,6 @@ class App extends LitElement {
   async handleCodeCopy(code: string) {
     try {
       await navigator.clipboard.writeText(code)
-      alert('已复制到剪切板！')
     } catch (error: any) {
       alert(`复制失败：${error.message as string}`)
     }

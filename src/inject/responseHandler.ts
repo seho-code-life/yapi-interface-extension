@@ -27,11 +27,6 @@ const firstUpperCase = (str: string) => {
   })
 }
 
-// 去除指定字符串的某个子串
-const removeStr = (str: string, targetStr: string = 'export ') => {
-  return str.replace(targetStr, '')
-}
-
 // 生成model api 代码片段
 const initModelApiCode = (params: {
   url: string
@@ -84,7 +79,7 @@ const queryToCode = (query: Query[], data: ApiData) => {
     const symbol = required === '0' ? '?' : ''
     return `${acc}\n  /** ${desc} */\n  ${name}${symbol}: string;`
   }, '')
-  return `interface Req${methodMap[data.method]}${firstUpperCase(
+  return `export interface Req${methodMap[data.method]}${firstUpperCase(
     data.function_name
   )} {${content}\n}`
 }
@@ -115,7 +110,7 @@ const responseHandler = (render: Function) => {
       const responseCode = rawToTs(responseRaw, {
         rootName: resRootName
       }).reduce((a, b) => `${a}\n\n${b}`)
-      const code = [`${removeStr(requestCode)}\n\n${removeStr(responseCode)}`]
+      const code = [`${requestCode}\n\n${responseCode}`]
       // 生成model & controller 的代码片段
       const modelApiCode = initModelApiCode({
         url: data.path,
